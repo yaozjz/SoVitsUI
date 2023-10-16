@@ -146,9 +146,9 @@ namespace VitsUI.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public string Diff_step {
+        public double Diff_step {
             get {
-                return ((string)(this["Diff_step"]));
+                return ((double)(this["Diff_step"]));
             }
             set {
                 this["Diff_step"] = value;
@@ -224,6 +224,30 @@ namespace VitsUI.Properties {
             }
             set {
                 this["isEnableDiff"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool isEnableAutoKey {
+            get {
+                return ((bool)(this["isEnableAutoKey"]));
+            }
+            set {
+                this["isEnableAutoKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool isEnableNSF {
+            get {
+                return ((bool)(this["isEnableNSF"]));
+            }
+            set {
+                this["isEnableNSF"] = value;
             }
         }
     }

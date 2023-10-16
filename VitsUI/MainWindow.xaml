@@ -14,7 +14,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--工具菜单显示-->
-        <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True" Background="#FFF3F3F3">
             <Button DockPanel.Dock="Bottom" Cursor="Hand" Click="Setting_Click" Style="{StaticResource MenuButton}">
                 <StackPanel Orientation="Vertical">
                     <Image Source="image/setting.png" Width="40"/>
@@ -28,7 +28,7 @@
                         <TextBlock Text="推理" TextAlignment="Center"/>
                     </StackPanel>
                 </Button>
-                <Button Style="{StaticResource MenuButton}" Click="VitsGo_Click">
+                <Button Style="{StaticResource MenuButton}" Click="TrainVits_Click">
                     <StackPanel Orientation="Vertical">
                         <Image Source="image/listico.png" Width="40"/>
                         <TextBlock Text="训练" TextAlignment="Center"/>

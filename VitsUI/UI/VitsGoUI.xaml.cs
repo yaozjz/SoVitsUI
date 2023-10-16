@@ -45,13 +45,21 @@ namespace VitsUI.UI
 
         void init_config()
         {
+            //主模型参数
             Model_name.Text = Properties.Settings.Default.sovitsModName;
             Config_name.Text = Properties.Settings.Default.sovitsConfig;
+            //扩散模型参数
             Diff_model_name.Text = Properties.Settings.Default.sovitsDiffMods;
             Diff_Config_name.Text = Properties.Settings.Default.sovitsDiffConfig;
             IsEnableDiff.IsChecked = Properties.Settings.Default.isEnableDiff;
+            DiffStep.Value = Properties.Settings.Default.Diff_step;
+            //特征检索模型
             IsEnableFeature.IsChecked = Properties.Settings.Default.isEnableFeature;
             Feature_mod_name.Text = Properties.Settings.Default.Feature_model_name;
+            FeatureArg.Text = Properties.Settings.Default.FeatureArg;
+            //其他参数
+            IsEnableAutoKey.IsChecked = Properties.Settings.Default.isEnableAutoKey;
+            IsEnableNSF.IsChecked = Properties.Settings.Default.isEnableNSF;
         }
         /// <summary>
         /// 保存配置
@@ -60,6 +68,23 @@ namespace VitsUI.UI
         /// <param name="e"></param>
         private void Save_config_Click(object sender, RoutedEventArgs e)
         {
+            //主模型
+            Properties.Settings.Default.sovitsModName = Model_name.Text.Trim();
+            Properties.Settings.Default.sovitsConfig = Config_name.Text.Trim();
+            //扩散模型
+            Properties.Settings.Default.sovitsDiffMods = Diff_model_name.Text.Trim();
+            Properties.Settings.Default.sovitsDiffConfig = Diff_Config_name.Text.Trim();
+            Properties.Settings.Default.isEnableDiff = (bool)IsEnableDiff.IsChecked;
+            Properties.Settings.Default.Diff_step = DiffStep.Value;
+            //特征检索模型
+            Properties.Settings.Default.isEnableFeature = (bool)IsEnableFeature.IsChecked;
+            Properties.Settings.Default.Feature_model_name = Feature_mod_name.Text.Trim();
+            Properties.Settings.Default.FeatureArg = FeatureArg.Text.Trim();
+            //其他参数
+            Properties.Settings.Default.isEnableNSF = (bool)IsEnableNSF.IsChecked;
+            Properties.Settings.Default.isEnableAutoKey = (bool)IsEnableAutoKey.IsChecked;
+
+            Properties.Settings.Default.Save();
             ShowMsg("配置保存成功");
         }
         /// <summary>
@@ -71,8 +96,8 @@ namespace VitsUI.UI
         {
             ShowMsg("开始推理！");
         }
-        //===================
-        DispatcherTimer? timer1 = null;
+        //===================音乐播放
+        DispatcherTimer timer1;
         private void timer_tick(object sender, EventArgs e)
         {
             SliderPosition.Value = MusicPlayer.Position.TotalSeconds;
@@ -88,7 +113,7 @@ namespace VitsUI.UI
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "Python解释器 (*.wav)|*.wav|All files (*.*)|*.*";
+            openFileDialog.Filter = "音频文件 (*.wav, *.flac, *.mp3)|*.wav;*.flac;*.mp3|All files (*.*)|*.*";
             if (openFileDialog.ShowDialog() == true)
             {
                 Input_music_path.Text = openFileDialog.FileName;
@@ -113,7 +138,6 @@ namespace VitsUI.UI
                 MusicPlayer.Pause();
                 timer1.Stop();
             }
-
         }
 
         private void Music_Opened(object sender, RoutedEventArgs e)
@@ -128,7 +152,9 @@ namespace VitsUI.UI
 
         private void SliderPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            MusicPlayer.Position = TimeSpan.FromSeconds(SliderPosition.Value);
+            var _nowTime = TimeSpan.FromSeconds(SliderPosition.Value);
+            MusicPlayer.Position = _nowTime;
+            PlayTime.Text = _nowTime.ToString(@"mm\:ss");
         }
     }
 }

@@ -88,7 +88,7 @@
                         <UniformGrid Columns="2">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="音高(半音)：" DockPanel.Dock="Left" Style="{StaticResource Text}"/>
-                                <Slider Maximum="6" Minimum="-6" Value="0" x:Name="KeyNum" Margin="5" IsSnapToTickEnabled="True" Width="300"/>
+                                <Slider Maximum="12" Minimum="-12" Value="0" x:Name="KeyNum" Margin="5" IsSnapToTickEnabled="True" Width="300"/>
                                 <TextBlock Text="{Binding ElementName=KeyNum, Path=Value}" DockPanel.Dock="Right" Style="{StaticResource Text}"/>
                                 <TextBlock Text="key" DockPanel.Dock="Right" Style="{StaticResource Text}"/>
                             </StackPanel>
@@ -110,15 +110,15 @@
                             </StackPanel>
                             <DockPanel VerticalAlignment="Center">
                                 <TextBlock DockPanel.Dock="Left" Text="聚类/特征占比：" Style="{StaticResource Text}" />
-                                <TextBox Text="0.5" IsEnabled="{Binding ElementName=IsEnableFeature}" VerticalContentAlignment="Center"/>
+                                <TextBox Text="0.5" x:Name="FeatureArg" IsEnabled="{Binding ElementName=IsEnableFeature}" VerticalContentAlignment="Center"/>
                             </DockPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="是否使用NSF_HIFIGAN增强器？" Style="{StaticResource Text}"/>
-                                <CheckBox IsChecked="True"/>
+                                <CheckBox IsChecked="True" x:Name="IsEnableNSF"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="是否使用自动音高？" Style="{StaticResource Text}"/>
-                                <CheckBox IsChecked="False"/>
+                                <CheckBox IsChecked="False" x:Name="IsEnableAutoKey"/>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="是否使用音频强制切片？单位为秒（例：0为自动切片，10为强制10秒切一段）" Style="{StaticResource Text}"/>

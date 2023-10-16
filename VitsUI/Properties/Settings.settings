@@ -32,7 +32,7 @@
     <Setting Name="f0_predictor" Type="System.String" Scope="User">
       <Value Profile="(Default)">crep</Value>
     </Setting>
-    <Setting Name="Diff_step" Type="System.String" Scope="User">
+    <Setting Name="Diff_step" Type="System.Double" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Enable_NSF_HIFIGAN" Type="System.Boolean" Scope="User">
@@ -52,6 +52,12 @@
     </Setting>
     <Setting Name="isEnableDiff" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="isEnableAutoKey" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="isEnableNSF" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
