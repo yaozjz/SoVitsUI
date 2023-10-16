@@ -1,0 +1,57 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="VitsUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="WinWitdh" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1080</Value>
+    </Setting>
+    <Setting Name="WinHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">640</Value>
+    </Setting>
+    <Setting Name="Python_env_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./env/python.exe</Value>
+    </Setting>
+    <Setting Name="sovitsModName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">G_100.pth</Value>
+    </Setting>
+    <Setting Name="sovitsConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)">config.json</Value>
+    </Setting>
+    <Setting Name="sovitsDiffMods" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="sovitsDiffConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="isEnableFeature" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FeatureArg" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="f0_predictor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">crep</Value>
+    </Setting>
+    <Setting Name="Diff_step" Type="System.String" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="Enable_NSF_HIFIGAN" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="auto_predict_f0" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Feature_model_name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">feature_and_index.pkl</Value>
+    </Setting>
+    <Setting Name="Model_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./logs/44k/</Value>
+    </Setting>
+    <Setting Name="Config_path" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./config</Value>
+    </Setting>
+    <Setting Name="isEnableDiff" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
