@@ -257,5 +257,10 @@ namespace VitsUI.UI
         {
             Mods.ToolsFunc.OpenFolder(Properties.Settings.Default.MusicInputPath);
         }
+
+        private void OnpenOnput_Path(object sender, RoutedEventArgs e)
+        {
+            Mods.ToolsFunc.OpenFolder(Properties.Settings.Default.MusicOutputPath);
+        }
     }
 }

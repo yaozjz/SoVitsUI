@@ -70,7 +70,7 @@ namespace VitsUI.UI
             var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
             cmdDoc.SendCommand(new string[]
             {
-                envs + arg
+                $"{envs} {arg}"
             });
         }
         /// <summary>
@@ -98,12 +98,8 @@ namespace VitsUI.UI
         /// <param name="e"></param>
         private void ViewLogs_Click(object sender, RoutedEventArgs e)
         {
-            RunOneWay(".\\env\\Scripts\\tensorboard.exe --logdir=.\\logs");
+            RunOneWay($"{System.IO.Path.Combine(System.IO.Path.GetDirectoryName(envs), "Scripts\\tensorboard.exe")} --logdir=.\\logs");
             var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
-            cmdDoc.SendCommand(new string[]
-            {
-                $"train_diff.py -c {System.IO.Path.Combine(Properties.Settings.Default.Config_path, Properties.Settings.Default.DiffConfig)}"
-            });
         }
         /// <summary>
         /// 训练浅扩散模型

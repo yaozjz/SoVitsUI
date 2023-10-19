@@ -20,7 +20,7 @@
             <Button DockPanel.Dock="Right" Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
                     Click="RunVits_Click" Cursor="Hand">开始推理</Button>
             <TextBlock DockPanel.Dock="Right" Text="保存成功！" Margin="20 10 20 10" FontSize="14" Visibility="Collapsed" x:Name="SaveDone_msg" Width="Auto"/>
-            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="60" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange" TextWrapping="Wrap"/>
+            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="60" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange" TextWrapping="Wrap" IsReadOnly="True"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
@@ -150,7 +150,7 @@
                             </Border>
                         </StackPanel>
                         <StackPanel Grid.Row="2" Margin="5">
-                            <Button Click="OnpenInput_Path" Height="30" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">打开输出文件夹</Button>
+                            <Button Click="OnpenOnput_Path" Height="30" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">打开输出文件夹</Button>
                         </StackPanel>
                     </Grid>
                 </StackPanel>
