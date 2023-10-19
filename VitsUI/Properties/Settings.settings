@@ -65,5 +65,11 @@
     <Setting Name="DiffPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">./logs/44k/diffusion</Value>
     </Setting>
+    <Setting Name="MusicInputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">raw</Value>
+    </Setting>
+    <Setting Name="MusicOutputPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">results</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

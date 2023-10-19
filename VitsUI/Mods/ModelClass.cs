@@ -6,7 +6,6 @@ namespace VitsUI.Mods
     {
         public string Path { get; set; }
         public string Args { get; set; }
-        public TextBox TB { get; set; }
 
     }
 }

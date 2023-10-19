@@ -32,11 +32,6 @@ namespace VitsUI.UI
             envs = Properties.Settings.Default.Python_env_path;
         }
 
-        private void Save_config_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void SampleData_Click(object sender, RoutedEventArgs e)
         {
             string[] args = new string[] { $"{envs} resample.py",

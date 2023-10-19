@@ -14,13 +14,14 @@
     </Page.Resources>
 
     <DockPanel LastChildFill="True" Background="White">
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="7">
-            <TextBlock Text="保存成功！" Margin="20 10 20 10" FontSize="14" Visibility="Collapsed" x:Name="SaveDone_msg" Width="Auto"/>
-            <Button Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
+        <DockPanel DockPanel.Dock="Bottom" Margin="7">
+            <Button DockPanel.Dock="Right" Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
                     Click="Save_config_Click">保存配置</Button>
-            <Button Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
-                    Click="RunVits_Click">开始推理</Button>
-        </StackPanel>
+            <Button DockPanel.Dock="Right" Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
+                    Click="RunVits_Click" Cursor="Hand">开始推理</Button>
+            <TextBlock DockPanel.Dock="Right" Text="保存成功！" Margin="20 10 20 10" FontSize="14" Visibility="Collapsed" x:Name="SaveDone_msg" Width="Auto"/>
+            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="60" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange" TextWrapping="Wrap"/>
+        </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
                 <StackPanel Orientation="Vertical" Margin="10">
@@ -38,19 +39,19 @@
                         <UniformGrid Grid.Row="0" Columns="2">
                             <DockPanel LastChildFill="True" Margin="5">
                                 <TextBlock DockPanel.Dock="Left" Text="模型选择：" Style="{StaticResource Text}"/>
-                                <TextBox x:Name="Model_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                                <ComboBox IsEditable="True" x:Name="Model_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                             </DockPanel>
                             <DockPanel LastChildFill="True" Margin="5">
                                 <TextBlock DockPanel.Dock="Left" Text="配置文件：" Style="{StaticResource Text}"/>
-                                <TextBox x:Name="Config_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                                <ComboBox IsEditable="True" x:Name="Config_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                             </DockPanel>
                             <DockPanel LastChildFill="True" Margin="5">
                                 <TextBlock DockPanel.Dock="Left" Text="(可选)扩散模型：" Style="{StaticResource Text}"/>
-                                <TextBox x:Name="Diff_model_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableDiff, Path=IsChecked}"/>
+                                <ComboBox IsEditable="True" x:Name="Diff_model_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableDiff, Path=IsChecked}"/>
                             </DockPanel>
                             <DockPanel LastChildFill="True" Margin="5">
                                 <TextBlock DockPanel.Dock="Left" Text="扩散模型配置文件：" Style="{StaticResource Text}"/>
-                                <TextBox x:Name="Diff_Config_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableDiff, Path=IsChecked}"/>
+                                <ComboBox IsEditable="True" x:Name="Diff_Config_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableDiff, Path=IsChecked}"/>
                             </DockPanel>
                             <StackPanel Orientation="Horizontal" Margin="5">
                                 <TextBlock Text="是否使用扩散模型？" Style="{StaticResource Text}"/>
@@ -64,7 +65,7 @@
                         <!-- 第一部分单元格结束 -->
                         <DockPanel Grid.Row="1" LastChildFill="True"  HorizontalAlignment="Stretch" Margin="5">
                             <TextBlock DockPanel.Dock="Left" Text="聚类/特征检索模型配置文件：" Style="{StaticResource Text}"/>
-                            <TextBox x:Name="Feature_mod_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableFeature, Path=IsChecked}"/>
+                            <ComboBox IsEditable="True" x:Name="Feature_mod_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" IsEnabled="{Binding ElementName=IsEnableFeature, Path=IsChecked}"/>
                         </DockPanel>
                     </Grid>
                     <Separator HorizontalAlignment="Left" VerticalAlignment="Center" Width="300"/>
@@ -117,6 +118,11 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="说话人：" Style="{StaticResource Text}"/>
                                 <TextBox x:Name="Now_Speeker" Text="None" IsReadOnly="True" Width="200" VerticalContentAlignment="Center"/>
+                                <TextBlock Text="输出格式：" Style="{StaticResource Text}"/>
+                                <ComboBox x:Name="outFomat" VerticalContentAlignment="Center" Width="70">
+                                    <ComboBoxItem IsSelected="True">flac</ComboBoxItem>
+                                    <ComboBoxItem>wav</ComboBoxItem>
+                                </ComboBox>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="请输入两段音频切片的交叉淡入长度，如果连贯建议为0，单位为秒" Style="{StaticResource Text}"/>
@@ -137,12 +143,14 @@
                                         <Slider Width="100" x:Name="MusicVolume" Minimum="0" Maximum="1" Value="0.8" VerticalAlignment="Center"/>
                                     </StackPanel>
                                     <TextBlock DockPanel.Dock="Left" Text="输入源：" Style="{StaticResource Text}"/>
-                                    <Button DockPanel.Dock="Right" Click="View_music_Path" Margin="10 0 10 0" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">浏览</Button>
-                                    <TextBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center"/>
+                                    <Button DockPanel.Dock="Right" Click="OnpenInput_Path" Width="130" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">打开输入文件夹</Button>
+                                    <Button DockPanel.Dock="Right" Click="View_music_Path" Margin="10 0 10 0" Width="100" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">检测文件</Button>
+                                    <ComboBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center" IsEditable="True"/>
                                 </DockPanel>
-
                             </Border>
-                            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="100" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Margin="5">
+                            <Button Click="OnpenInput_Path" Height="30" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">打开输出文件夹</Button>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

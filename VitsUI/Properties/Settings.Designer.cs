@@ -274,5 +274,29 @@ namespace VitsUI.Properties {
                 this["DiffPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("raw")]
+        public string MusicInputPath {
+            get {
+                return ((string)(this["MusicInputPath"]));
+            }
+            set {
+                this["MusicInputPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("results")]
+        public string MusicOutputPath {
+            get {
+                return ((string)(this["MusicOutputPath"]));
+            }
+            set {
+                this["MusicOutputPath"] = value;
+            }
+        }
     }
 }

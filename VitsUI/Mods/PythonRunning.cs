@@ -4,11 +4,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Shapes;
 
 namespace VitsUI.Mods
 {
@@ -23,7 +25,6 @@ namespace VitsUI.Mods
         public void RunPython(object arr)
         {
             ModelClass msg = arr as ModelClass;
-            TB_view = msg.TB;
             process = new Process();
             try
             {
@@ -34,25 +35,32 @@ namespace VitsUI.Mods
                 //process.EnableRaisingEvents = true;
                 process.StartInfo.FileName = msg.Path;
                 process.StartInfo.Arguments = msg.Args;
-
+                Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"{msg.Path} {msg.Args}\r"); });
                 process.Start();
-                //process.StandardInput.AutoFlush = true;
+                //process.BeginOutputReadLine(); //开始异步读取输出
+                //process.OutputDataReceived += new DataReceivedEventHandler(ProcessOutputHandler); //设置回调函数
                 //while (!process.StandardOutput.EndOfStream)
                 //{
                 //    string line = process.StandardOutput.ReadLine();
-                //    Application.Current.Dispatcher.Invoke(delegate { msg.TB.AppendText($"{line}\r"); });
-                //    // do something with line
+                //    process.StandardInput.AutoFlush = true;
+                //    Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"{line}\r"); });
                 //}
 
                 process.WaitForExit();  //等待程序执行完退出进程
                 process.Close();
-                Application.Current.Dispatcher.Invoke(delegate { msg.TB.AppendText($"{msg.Args}运行完毕.\r"); });
+                Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"程序运行完毕.\r"); });
             }
             catch (Exception e)
             {
-                Application.Current.Dispatcher.Invoke(delegate { msg.TB.AppendText(e.Message + "\r"); });
+                Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText(e.Message + "\r"); });
             }
         }
+        private void ProcessOutputHandler(object sender, DataReceivedEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText(e.Data + '\r'); });
+            process.StandardInput.AutoFlush = true;
+        }
+
         /// <summary>
         /// 依次执行多个程序
         /// </summary>
@@ -71,7 +79,6 @@ namespace VitsUI.Mods
                 foreach (var arg in args)
                 {
                     process.StandardInput.WriteLine(arg); //向cmd窗口发送输入信息
-                    Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"{arg}运行完毕.\r"); });
                 }
             }
             catch (Exception e)
@@ -94,5 +101,6 @@ namespace VitsUI.Mods
             process.WaitForExit();  //等待程序执行完退出进程
             process.Close();
         }
+
     }
 }

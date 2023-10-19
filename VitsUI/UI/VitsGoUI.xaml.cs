@@ -35,10 +35,42 @@ namespace VitsUI.UI
         {
             OutPutLogs.AppendText(msg + "\r");
         }
+        /// <summary>
+        /// 查找及更新
+        /// </summary>
+        void Cheked_Foder(ComboBox CB, string filePath, string rule)
+        {
+            var files = Mods.ToolsFunc.Get_Folder(filePath, rule);
+            List<string> name = new List<string>();
+            if (files != null)
+            {
+                foreach (var file_name in files)
+                {
+                    name.Add(Path.GetFileName(file_name));
+                }
+                CB.ItemsSource = name;
+                CB.SelectedIndex = 0;
+            }
+            else
+            {
+                AddLogs("路径下没有找到合适文件.");
+            }
+        }
 
         public VitsGoUI()
         {
             InitializeComponent();
+            //更新输入源列表
+            Cheked_Foder(Input_music_path, Properties.Settings.Default.MusicInputPath, "*.wav");
+            //刷新主模型和配置文件
+            string model_path = Properties.Settings.Default.Model_path;
+            string config_path = Properties.Settings.Default.Config_path;
+            Cheked_Foder(Model_name, model_path, "*.pth");
+            Cheked_Foder(Config_name, config_path, "*.json");
+            Cheked_Foder(Diff_Config_name, config_path, "*.yaml");
+            Cheked_Foder(Diff_model_name, Properties.Settings.Default.DiffPath, "*.pt");
+            Cheked_Foder(Feature_mod_name, model_path, "*.pkl");
+
             init_config();
         }
 
@@ -68,12 +100,12 @@ namespace VitsUI.UI
                 string json = File.ReadAllText(Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text));
                 JObject objs = JObject.Parse(json);
                 var speeker_value = objs["spk"] as JObject;
-                foreach(var speeker in speeker_value)
+                foreach (var speeker in speeker_value)
                 {
                     Now_Speeker.Text = speeker.Key;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 AddLogs($"配置文件读取失败.{ex.Message}");
             }
@@ -114,11 +146,12 @@ namespace VitsUI.UI
         private void RunVits_Click(object sender, RoutedEventArgs e)
         {
             ShowMsg("开始推理！");
-            string inference_case = $"{Properties.Settings.Default.Python_env_path} inference_main.py ";
-            string config_file = System.IO.Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
-            inference_case += $"-m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n {Input_music_path} -t {KeyNum.Value} -s {Now_Speeker.Text}" +
+            //string inference_case = $"{Properties.Settings.Default.Python_env_path} ";
+            string inference_case;
+            string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
+            inference_case = $"inference_main.py -m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n {Path.GetFileNameWithoutExtension(Input_music_path.Text)} -t {KeyNum.Value} -s {Now_Speeker.Text}" +
                 $" -f0p {F0_Index.Text} -sd {slice_db.Text}";
-            if(IsEnableDiff.IsChecked == true)
+            if (IsEnableDiff.IsChecked == true)
                 //启用浅扩散模型
                 inference_case += $" -shd -dm {Path.Combine(Properties.Settings.Default.DiffPath, Diff_model_name.Text)} -ks {DiffStep.Value}";
             if (IsEnableNSF.IsChecked == true)
@@ -128,19 +161,11 @@ namespace VitsUI.UI
                 inference_case += $" --feature_retrieval -cm {Path.Combine(Properties.Settings.Default.Model_path, Feature_mod_name.Text)} -cr {FeatureArg.Text}";
             if (IsEnableAutoKey.IsChecked == true)
                 inference_case += " -a";
-            inference_case += $" -cl {Clip.Text} -lg {linear_gradient.Text}";
+            inference_case += $" -cl {Clip.Text} -lg {linear_gradient.Text} -wf {outFomat.Text}";
 
-            Mods.ModelClass msg = new Mods.ModelClass()
-            {
-                TB = OutPutLogs,
-                Path = Properties.Settings.Default.Python_env_path,
-                Args = inference_case
-            };
             var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
-            cmdDoc.SendCommand(new string[]
-            {
-                inference_case
-            });
+            Thread t = new Thread(cmdDoc.RunPython) { IsBackground = true };
+            t.Start(new Mods.ModelClass() { Path = Properties.Settings.Default.Python_env_path, Args = inference_case });
 
         }
         //===================音乐播放
@@ -151,6 +176,7 @@ namespace VitsUI.UI
             var now_time = MusicPlayer.Position;
             PlayTime.Text = now_time.ToString(@"mm\:ss");
         }
+
         /// <summary>
         /// 浏览并加载音乐文件
         /// </summary>
@@ -158,14 +184,15 @@ namespace VitsUI.UI
         /// <param name="e"></param>
         private void View_music_Path(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = true;
-            openFileDialog.Filter = "音频文件 (*.wav, *.flac, *.mp3)|*.wav;*.flac;*.mp3|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                Input_music_path.Text = openFileDialog.FileName;
-                MusicPlayer.Source = new Uri(Input_music_path.Text, UriKind.Relative);
-            }
+            //OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.Multiselect = true;
+            //openFileDialog.Filter = "音频文件 (*.wav, *.flac, *.mp3)|*.wav;*.flac;*.mp3|All files (*.*)|*.*";
+            //if (openFileDialog.ShowDialog() == true)
+            //{
+            //    Input_music_path.Text = openFileDialog.FileName;
+            //    MusicPlayer.Source = new Uri(Input_music_path.Text, UriKind.Relative);
+            //}
+            Cheked_Foder(Input_music_path, Properties.Settings.Default.MusicInputPath, "*.wav");
         }
         /// <summary>
         /// 播放或暂停音乐
@@ -174,6 +201,7 @@ namespace VitsUI.UI
         /// <param name="e"></param>
         private void PlayOrStop_Music(object sender, RoutedEventArgs e)
         {
+            MusicPlayer.Source = new Uri(Path.Combine(Properties.Settings.Default.MusicInputPath, Input_music_path.Text), UriKind.Relative);
             if (PlayMusic.Content.ToString() == "播放")
             {
                 PlayMusic.Content = "暂停";
@@ -189,12 +217,19 @@ namespace VitsUI.UI
 
         private void Music_Opened(object sender, RoutedEventArgs e)
         {
-            timer1 = new DispatcherTimer();
-            // 获取音频总长度
-            SliderPosition.Maximum = MusicPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-            timer1.Interval = TimeSpan.FromSeconds(1);
-            timer1.Tick += new EventHandler(timer_tick);
-            timer1.Start();
+            try
+            {
+                timer1 = new DispatcherTimer();
+                // 获取音频总长度
+                SliderPosition.Maximum = MusicPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+                timer1.Interval = TimeSpan.FromSeconds(1);
+                timer1.Tick += new EventHandler(timer_tick);
+                timer1.Start();
+            }
+            catch (Exception ex)
+            {
+                AddLogs(ex.Message);
+            }
         }
 
         private void SliderPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -212,6 +247,15 @@ namespace VitsUI.UI
                 OutPutLogs.Text = OutPutLogs.Text.Substring(OutPutLogs.GetLineText(0).Length + 1);
             }
             OutPutLogs.ScrollToEnd();
+        }
+        /// <summary>
+        /// 打开输入文件夹
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnpenInput_Path(object sender, RoutedEventArgs e)
+        {
+            Mods.ToolsFunc.OpenFolder(Properties.Settings.Default.MusicInputPath);
         }
     }
 }
