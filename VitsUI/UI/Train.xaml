@@ -1,0 +1,82 @@
+﻿<Page x:Class="VitsUI.UI.Train"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VitsUI.UI"
+      mc:Ignorable="d" 
+      d:DesignHeight="640" d:DesignWidth="800"
+      Title="Train">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="2" Margin="8" x:Name="OutPutLogs" FontFamily="YouYuan" FontSize="13" IsReadOnly="True" VerticalScrollBarVisibility="Visible" TextChanged="Logs_Update"/>
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" Background="Gray"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer.Content>
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock Text="训练" Style="{StaticResource Title}"/>
+                    </StackPanel>
+                    <Separator HorizontalAlignment="Left" VerticalAlignment="Center" Width="300"/>
+                    <TextBlock Text="数据预处理：" Style="{StaticResource Text}" FontSize="20"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <UniformGrid Columns="2" Grid.Row="0">
+                            <DockPanel VerticalAlignment="Center">
+                                <TextBlock Text="选择训练使用的编码器：" Style="{StaticResource Text}" VerticalAlignment="Center"/>
+                                <ComboBox Margin="10" VerticalContentAlignment="Center" x:Name="EncoderName">
+                                    <ComboBoxItem IsSelected="True">vec768l12</ComboBoxItem>
+                                    <ComboBoxItem >vec256l9</ComboBoxItem>
+                                    <ComboBoxItem >hubertsoft</ComboBoxItem>
+                                </ComboBox>
+                            </DockPanel>
+                            <DockPanel VerticalAlignment="Center">
+                                <TextBlock Text="选择训练使用的f0预测器：" Style="{StaticResource Text}" VerticalAlignment="Center"/>
+                                <ComboBox Margin="10" VerticalContentAlignment="Center" x:Name="F0_Index">
+                                    <ComboBoxItem IsSelected="True">crepe</ComboBoxItem>
+                                    <ComboBoxItem >pm</ComboBoxItem>
+                                    <ComboBoxItem >dio</ComboBoxItem>
+                                    <ComboBoxItem >harvest</ComboBoxItem>
+                                    <ComboBoxItem >rmvpe</ComboBoxItem>
+                                    <ComboBoxItem >fcpe</ComboBoxItem>
+                                </ComboBox>
+                            </DockPanel>
+                        </UniformGrid>
+                        <StackPanel Grid.Row="1">
+                            <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="SampleData_Click">开始处理</Button>
+                        </StackPanel>
+                    </Grid>
+                    <Separator HorizontalAlignment="Left" VerticalAlignment="Center" Width="300"/>
+                    <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10">
+                        <StackPanel>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="Center" Text="训练主模型：" Style="{StaticResource Text}" FontSize="20"/>
+                                <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="Train_Click">开始训练</Button>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="Center" Text="训练特征模型：" Style="{StaticResource Text}" FontSize="20"/>
+                                <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="FeatureTrain_Click">开始训练</Button>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="Center" Text="训练浅扩散模型：" Style="{StaticResource Text}" FontSize="20"/>
+                                <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="DiffTrain_Click">开始训练</Button>
+                            </DockPanel>
+                            <DockPanel>
+                                <TextBlock VerticalAlignment="Center" Text="启动TensorBoard数据可视化：" Style="{StaticResource Text}" FontSize="20"/>
+                                <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="ViewLogs_Click">打开</Button>
+                            </DockPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer.Content>
+        </ScrollViewer>
+    </Grid>
+</Page>

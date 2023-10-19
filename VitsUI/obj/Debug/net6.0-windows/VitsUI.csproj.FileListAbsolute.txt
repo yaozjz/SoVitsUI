@@ -25,3 +25,12 @@ H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-w
 H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-windows\VitsUI.dll.config
 H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\SettingUI.baml
 H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\VitsGoUI.baml
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\Mods\MusicPlayer.g.cs
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\Mods\MusicPlayer.baml
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\Train.g.cs
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\Train.baml
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-windows\Newtonsoft.Json.pdb
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-windows\Newtonsoft.Json.xml
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\VitsUI.csproj.AssemblyReference.cache
+H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\VitsUI.csproj.CopyComplete

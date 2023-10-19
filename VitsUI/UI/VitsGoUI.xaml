@@ -5,18 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:VitsUI.UI"
       mc:Ignorable="d" 
-      d:DesignHeight="640" d:DesignWidth="985"
+      d:DesignHeight="720" d:DesignWidth="985"
       Title="VitsGoUI">
     <Page.Resources>
-        <Style TargetType="TextBlock" x:Key="Title">
-            <Setter Property="FontFamily" Value="YouYuan"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="Margin" Value="10"/>
-        </Style>
-        <Style TargetType="TextBlock" x:Key="Text">
-            <Setter Property="FontFamily" Value="YouYuan"/>
-            <Setter Property="Margin" Value="8"/>
-        </Style>
         <Style TargetType="CheckBox">
             <Setter Property="Margin" Value="8"/>
         </Style>
@@ -30,10 +21,9 @@
             <Button Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
                     Click="RunVits_Click">开始推理</Button>
         </StackPanel>
-        <ScrollViewer x:Name="scrolls" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
                 <StackPanel Orientation="Vertical" Margin="10">
-
                     <StackPanel Orientation="Horizontal" >
                         <TextBlock Text="推理" Style="{StaticResource Title}"/>
                     </StackPanel>
@@ -41,8 +31,8 @@
                     <TextBlock Text="模型设置：" Style="{StaticResource Text}" FontSize="20"/>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <!-- 第一部分单元格 -->
                         <UniformGrid Grid.Row="0" Columns="2">
@@ -51,7 +41,7 @@
                                 <TextBox x:Name="Model_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                             </DockPanel>
                             <DockPanel LastChildFill="True" Margin="5">
-                                <TextBlock DockPanel.Dock="Left" Text="配置文件编码器：" Style="{StaticResource Text}"/>
+                                <TextBlock DockPanel.Dock="Left" Text="配置文件：" Style="{StaticResource Text}"/>
                                 <TextBox x:Name="Config_name" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                             </DockPanel>
                             <DockPanel LastChildFill="True" Margin="5">
@@ -94,7 +84,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock DockPanel.Dock="Left" Text="F0预测器：" Style="{StaticResource Text}" />
-                                <ComboBox Width="200" Margin="5" VerticalContentAlignment="Center">
+                                <ComboBox Width="200" Margin="5" VerticalContentAlignment="Center" x:Name="F0_Index">
                                     <ComboBoxItem IsSelected="True">crepe</ComboBoxItem>
                                     <ComboBoxItem >pm</ComboBoxItem>
                                     <ComboBoxItem >dio</ComboBoxItem>
@@ -108,47 +98,51 @@
                                 <Slider Maximum="100" Minimum="0" Value="100" Margin="10" IsSnapToTickEnabled="True" x:Name="DiffStep" Width="300" IsEnabled="{Binding ElementName=IsEnableDiff,Path=IsChecked}"/>
                                 <TextBlock Text="{Binding ElementName=DiffStep, Path=Value}" DockPanel.Dock="Right" Style="{StaticResource Text}"/>
                             </StackPanel>
-                            <DockPanel VerticalAlignment="Center">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                                 <TextBlock DockPanel.Dock="Left" Text="聚类/特征占比：" Style="{StaticResource Text}" />
-                                <TextBox Text="0.5" x:Name="FeatureArg" IsEnabled="{Binding ElementName=IsEnableFeature}" VerticalContentAlignment="Center"/>
-                            </DockPanel>
+                                <TextBox Text="0.5" Width="100" x:Name="FeatureArg" IsEnabled="{Binding ElementName=IsEnableFeature}" VerticalContentAlignment="Center"/>
+                                <TextBlock Margin="20 8 8 8" Text="切片(分贝)阈值：" Style="{StaticResource Text}"/>
+                                <TextBox x:Name="slice_db" Width="100" VerticalContentAlignment="Center" Text="-50"/>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="是否使用NSF_HIFIGAN增强器？" Style="{StaticResource Text}"/>
                                 <CheckBox IsChecked="True" x:Name="IsEnableNSF"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="是否使用自动音高？" Style="{StaticResource Text}"/>
+                                <TextBlock Margin="40 8 8 8" Text="是否使用自动音高？" Style="{StaticResource Text}"/>
                                 <CheckBox IsChecked="False" x:Name="IsEnableAutoKey"/>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="是否使用音频强制切片？单位为秒（例：0为自动切片，10为强制10秒切一段）" Style="{StaticResource Text}"/>
-                                <TextBox Text="0" Width="200" HorizontalAlignment="Left" Margin="20 0 20 0"/>
+                                <TextBox x:Name="Clip" Text="0" Width="200" HorizontalAlignment="Left" Margin="20 0 20 0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="说话人：" Style="{StaticResource Text}"/>
+                                <TextBox x:Name="Now_Speeker" Text="None" IsReadOnly="True" Width="200" VerticalContentAlignment="Center"/>
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Text="请输入两段音频切片的交叉淡入长度，如果连贯建议为0，单位为秒" Style="{StaticResource Text}"/>
-                                <TextBox Text="0" Width="200" HorizontalAlignment="Left" Margin="20 0 20 0"/>
+                                <TextBox x:Name="linear_gradient" Text="0" Width="200" HorizontalAlignment="Left" Margin="20 0 20 0"/>
                             </StackPanel>
                         </UniformGrid>
-                        <StackPanel Grid.Row="1" Margin="10">
+                        <StackPanel Grid.Row="1" Margin="5">
                             <Separator HorizontalAlignment="Left" VerticalAlignment="Center" Width="300" Margin="5"/>
-                            <DockPanel>
-                                <TextBlock DockPanel.Dock="Left" Text="输入源：" Style="{StaticResource Text}"/>
-                                <Button DockPanel.Dock="Right" Click="View_music_Path" Margin="10 0 10 0" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">浏览</Button>
-                                <TextBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center"/>
-                            </DockPanel>
-                        </StackPanel>
-                        <StackPanel Grid.Row="2" Margin="5">
                             <MediaElement x:Name="MusicPlayer" Visibility="Hidden" LoadedBehavior="Manual" Volume="{Binding ElementName=MusicVolume,Path=Value}"
                                           MediaOpened="Music_Opened"/>
-                            <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="10" >
-                                <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
-                                    <Button x:Name="PlayMusic" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}" Click="PlayOrStop_Music" Content="播放"/>
-                                    <Slider Width="400" x:Name="SliderPosition" VerticalAlignment="Center" ValueChanged="SliderPosition_ValueChanged"/>
-                                    <TextBlock Text="00:00" x:Name="PlayTime" Style="{StaticResource Text}"/>
-                                    <TextBlock Text="音量：" Style="{StaticResource Text}"/>
-                                    <Slider Width="100" x:Name="MusicVolume" Minimum="0" Maximum="1" Value="0.8" VerticalAlignment="Center"/>
-                                </StackPanel>
+                            <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="10" Padding="5" >
+                                <DockPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                                        <Button x:Name="PlayMusic" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}" Click="PlayOrStop_Music" Content="播放"/>
+                                        <Slider Width="400" x:Name="SliderPosition" VerticalAlignment="Center" ValueChanged="SliderPosition_ValueChanged"/>
+                                        <TextBlock Text="00:00" x:Name="PlayTime" Style="{StaticResource Text}"/>
+                                        <TextBlock Text="音量：" Style="{StaticResource Text}"/>
+                                        <Slider Width="100" x:Name="MusicVolume" Minimum="0" Maximum="1" Value="0.8" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <TextBlock DockPanel.Dock="Left" Text="输入源：" Style="{StaticResource Text}"/>
+                                    <Button DockPanel.Dock="Right" Click="View_music_Path" Margin="10 0 10 0" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">浏览</Button>
+                                    <TextBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center"/>
+                                </DockPanel>
+
                             </Border>
+                            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="100" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange"/>
                         </StackPanel>
                     </Grid>
                 </StackPanel>

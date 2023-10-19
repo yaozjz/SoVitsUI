@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\App.xaml
-3351061139
+5341353879
 1-1669144244
-8-1115409307
-194-2067936865
-MainWindow.xaml;UI\SettingUI.xaml;UI\VitsGoUI.xaml;
+121190903707
+1951867791448
+MainWindow.xaml;Mods\MusicPlayer.xaml;UI\SettingUI.xaml;UI\Train.xaml;UI\VitsGoUI.xaml;
 
 False
 

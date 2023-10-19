@@ -63,7 +63,7 @@ namespace VitsUI
         /// <param name="e"></param>
         private void TrainVits_Click(object sender, RoutedEventArgs e)
         {
-
+            MainContent.Content = new UI.Train();
         }
     }
 }

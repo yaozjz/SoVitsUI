@@ -49,7 +49,7 @@ namespace VitsUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./env/python.exe")]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\env\\python.exe")]
         public string Python_env_path {
             get {
                 return ((string)(this["Python_env_path"]));
@@ -133,10 +133,10 @@ namespace VitsUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("crep")]
-        public string f0_predictor {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int f0_predictor {
             get {
-                return ((string)(this["f0_predictor"]));
+                return ((int)(this["f0_predictor"]));
             }
             set {
                 this["f0_predictor"] = value;
@@ -205,7 +205,7 @@ namespace VitsUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./config")]
+        [global::System.Configuration.DefaultSettingValueAttribute("./configs")]
         public string Config_path {
             get {
                 return ((string)(this["Config_path"]));
@@ -248,6 +248,30 @@ namespace VitsUI.Properties {
             }
             set {
                 this["isEnableNSF"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("diffusion.yaml")]
+        public string DiffConfig {
+            get {
+                return ((string)(this["DiffConfig"]));
+            }
+            set {
+                this["DiffConfig"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("./logs/44k/diffusion")]
+        public string DiffPath {
+            get {
+                return ((string)(this["DiffPath"]));
+            }
+            set {
+                this["DiffPath"] = value;
             }
         }
     }

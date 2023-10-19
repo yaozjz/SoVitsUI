@@ -4,6 +4,15 @@
              xmlns:local="clr-namespace:VitsUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <Style TargetType="TextBlock" x:Key="Title">
+            <Setter Property="FontFamily" Value="YouYuan"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Text">
+            <Setter Property="FontFamily" Value="YouYuan"/>
+            <Setter Property="Margin" Value="8"/>
+        </Style>
         <Style x:Key="MenuButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>

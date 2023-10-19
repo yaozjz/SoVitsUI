@@ -1,20 +1,15 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
+using System.Collections.Generic;
 
 namespace VitsUI.UI
 {
@@ -35,6 +30,10 @@ namespace VitsUI.UI
                     SaveDone_msg.Visibility = Visibility.Collapsed;
                 });
             });
+        }
+        void AddLogs(string msg)
+        {
+            OutPutLogs.AppendText(msg + "\r");
         }
 
         public VitsGoUI()
@@ -57,9 +56,27 @@ namespace VitsUI.UI
             IsEnableFeature.IsChecked = Properties.Settings.Default.isEnableFeature;
             Feature_mod_name.Text = Properties.Settings.Default.Feature_model_name;
             FeatureArg.Text = Properties.Settings.Default.FeatureArg;
+            //F0预测器
+            F0_Index.SelectedIndex = Properties.Settings.Default.f0_predictor;
             //其他参数
             IsEnableAutoKey.IsChecked = Properties.Settings.Default.isEnableAutoKey;
             IsEnableNSF.IsChecked = Properties.Settings.Default.isEnableNSF;
+
+            //配置文件读取
+            try
+            {
+                string json = File.ReadAllText(Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text));
+                JObject objs = JObject.Parse(json);
+                var speeker_value = objs["spk"] as JObject;
+                foreach(var speeker in speeker_value)
+                {
+                    Now_Speeker.Text = speeker.Key;
+                }
+            }
+            catch(Exception ex)
+            {
+                AddLogs($"配置文件读取失败.{ex.Message}");
+            }
         }
         /// <summary>
         /// 保存配置
@@ -80,6 +97,8 @@ namespace VitsUI.UI
             Properties.Settings.Default.isEnableFeature = (bool)IsEnableFeature.IsChecked;
             Properties.Settings.Default.Feature_model_name = Feature_mod_name.Text.Trim();
             Properties.Settings.Default.FeatureArg = FeatureArg.Text.Trim();
+            //F0预测器
+            Properties.Settings.Default.f0_predictor = F0_Index.SelectedIndex;
             //其他参数
             Properties.Settings.Default.isEnableNSF = (bool)IsEnableNSF.IsChecked;
             Properties.Settings.Default.isEnableAutoKey = (bool)IsEnableAutoKey.IsChecked;
@@ -95,6 +114,34 @@ namespace VitsUI.UI
         private void RunVits_Click(object sender, RoutedEventArgs e)
         {
             ShowMsg("开始推理！");
+            string inference_case = $"{Properties.Settings.Default.Python_env_path} inference_main.py ";
+            string config_file = System.IO.Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
+            inference_case += $"-m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n {Input_music_path} -t {KeyNum.Value} -s {Now_Speeker.Text}" +
+                $" -f0p {F0_Index.Text} -sd {slice_db.Text}";
+            if(IsEnableDiff.IsChecked == true)
+                //启用浅扩散模型
+                inference_case += $" -shd -dm {Path.Combine(Properties.Settings.Default.DiffPath, Diff_model_name.Text)} -ks {DiffStep.Value}";
+            if (IsEnableNSF.IsChecked == true)
+                inference_case += " -eh";
+            if (IsEnableFeature.IsChecked == true)
+                //启用特征检索模型
+                inference_case += $" --feature_retrieval -cm {Path.Combine(Properties.Settings.Default.Model_path, Feature_mod_name.Text)} -cr {FeatureArg.Text}";
+            if (IsEnableAutoKey.IsChecked == true)
+                inference_case += " -a";
+            inference_case += $" -cl {Clip.Text} -lg {linear_gradient.Text}";
+
+            Mods.ModelClass msg = new Mods.ModelClass()
+            {
+                TB = OutPutLogs,
+                Path = Properties.Settings.Default.Python_env_path,
+                Args = inference_case
+            };
+            var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
+            cmdDoc.SendCommand(new string[]
+            {
+                inference_case
+            });
+
         }
         //===================音乐播放
         DispatcherTimer timer1;
@@ -127,7 +174,7 @@ namespace VitsUI.UI
         /// <param name="e"></param>
         private void PlayOrStop_Music(object sender, RoutedEventArgs e)
         {
-            if(PlayMusic.Content.ToString() == "播放")
+            if (PlayMusic.Content.ToString() == "播放")
             {
                 PlayMusic.Content = "暂停";
                 MusicPlayer.Play();
@@ -155,6 +202,16 @@ namespace VitsUI.UI
             var _nowTime = TimeSpan.FromSeconds(SliderPosition.Value);
             MusicPlayer.Position = _nowTime;
             PlayTime.Text = _nowTime.ToString(@"mm\:ss");
+        }
+
+        private void LogsChange(object sender, TextChangedEventArgs e)
+        {
+            //防止内存泄漏
+            if (OutPutLogs.LineCount > 3001)
+            {
+                OutPutLogs.Text = OutPutLogs.Text.Substring(OutPutLogs.GetLineText(0).Length + 1);
+            }
+            OutPutLogs.ScrollToEnd();
         }
     }
 }

@@ -9,7 +9,7 @@
       <Value Profile="(Default)">640</Value>
     </Setting>
     <Setting Name="Python_env_path" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./env/python.exe</Value>
+      <Value Profile="(Default)">.\env\python.exe</Value>
     </Setting>
     <Setting Name="sovitsModName" Type="System.String" Scope="User">
       <Value Profile="(Default)">G_100.pth</Value>
@@ -29,8 +29,8 @@
     <Setting Name="FeatureArg" Type="System.String" Scope="User">
       <Value Profile="(Default)">0.5</Value>
     </Setting>
-    <Setting Name="f0_predictor" Type="System.String" Scope="User">
-      <Value Profile="(Default)">crep</Value>
+    <Setting Name="f0_predictor" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="Diff_step" Type="System.Double" Scope="User">
       <Value Profile="(Default)">100</Value>
@@ -48,7 +48,7 @@
       <Value Profile="(Default)">./logs/44k/</Value>
     </Setting>
     <Setting Name="Config_path" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./config</Value>
+      <Value Profile="(Default)">./configs</Value>
     </Setting>
     <Setting Name="isEnableDiff" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -58,6 +58,12 @@
     </Setting>
     <Setting Name="isEnableNSF" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DiffConfig" Type="System.String" Scope="User">
+      <Value Profile="(Default)">diffusion.yaml</Value>
+    </Setting>
+    <Setting Name="DiffPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">./logs/44k/diffusion</Value>
     </Setting>
   </Settings>
 </SettingsFile>
