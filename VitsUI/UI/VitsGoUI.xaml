@@ -136,7 +136,8 @@
                             <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="10" Padding="5" >
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
-                                        <Button x:Name="PlayMusic" Width="80" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}" Click="PlayOrStop_Music" Content="播放"/>
+                                        <Button x:Name="PlayInput" Width="120" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}" Click="PlayOrStop_Music" Content="播放输入音频"/>
+                                        <Button x:Name="PlayOutput" Width="120" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}" Click="PlayOrStop_OutPut" Content="播放输出音频"/>
                                         <Slider Width="400" x:Name="SliderPosition" VerticalAlignment="Center" ValueChanged="SliderPosition_ValueChanged"/>
                                         <TextBlock Text="00:00" x:Name="PlayTime" Style="{StaticResource Text}"/>
                                         <TextBlock Text="音量：" Style="{StaticResource Text}"/>

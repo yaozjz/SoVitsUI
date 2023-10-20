@@ -146,7 +146,7 @@ namespace VitsUI.UI
         private void RunVits_Click(object sender, RoutedEventArgs e)
         {
             ShowMsg("开始推理！");
-            //string inference_case = $"{Properties.Settings.Default.Python_env_path} ";
+            string envs = $"{Properties.Settings.Default.Python_env_path} ";
             string inference_case;
             string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
             inference_case = $"inference_main.py -m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n {Path.GetFileNameWithoutExtension(Input_music_path.Text)} -t {KeyNum.Value} -s {Now_Speeker.Text}" +
@@ -164,8 +164,9 @@ namespace VitsUI.UI
             inference_case += $" -cl {Clip.Text} -lg {linear_gradient.Text} -wf {outFomat.Text}";
 
             var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
-            Thread t = new Thread(cmdDoc.RunPython) { IsBackground = true };
-            t.Start(new Mods.ModelClass() { Path = Properties.Settings.Default.Python_env_path, Args = inference_case });
+            //Thread t = new Thread(cmdDoc.RunPython) { IsBackground = true };
+            //t.Start(new Mods.ModelClass() { Path = Properties.Settings.Default.Python_env_path, Args = inference_case });
+            cmdDoc.SendCommand(new string[] { envs + inference_case });
 
         }
         //===================音乐播放
@@ -195,21 +196,27 @@ namespace VitsUI.UI
             Cheked_Foder(Input_music_path, Properties.Settings.Default.MusicInputPath, "*.wav");
         }
         /// <summary>
-        /// 播放或暂停音乐
+        /// 输入音频播放或暂停音乐
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void PlayOrStop_Music(object sender, RoutedEventArgs e)
         {
-            MusicPlayer.Source = new Uri(Path.Combine(Properties.Settings.Default.MusicInputPath, Input_music_path.Text), UriKind.Relative);
-            if (PlayMusic.Content.ToString() == "播放")
+            string play_path = Path.Combine(Properties.Settings.Default.MusicInputPath, Input_music_path.Text);
+            if (!File.Exists(play_path))
             {
-                PlayMusic.Content = "暂停";
+                AddLogs($"不存在文件{play_path}.");
+                return;
+            }
+            MusicPlayer.Source = new Uri(play_path, UriKind.Relative);
+            if (PlayInput.Content.ToString() == "播放输入音频")
+            {
+                PlayInput.Content = "暂停";
                 MusicPlayer.Play();
             }
             else
             {
-                PlayMusic.Content = "播放";
+                PlayInput.Content = "播放输入音频";
                 MusicPlayer.Pause();
                 timer1.Stop();
             }
@@ -261,6 +268,39 @@ namespace VitsUI.UI
         private void OnpenOnput_Path(object sender, RoutedEventArgs e)
         {
             Mods.ToolsFunc.OpenFolder(Properties.Settings.Default.MusicOutputPath);
+        }
+
+        private void PlayOrStop_OutPut(object sender, RoutedEventArgs e)
+        {
+            string output_name = $"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}_{KeyNum.Value}key_{Now_Speeker.Text}_{FeatureArg.Text}_sov";
+            if (IsEnableDiff.IsChecked == true)
+                output_name += "diff";
+            else output_name += "its";
+            output_name += $"_{F0_Index.Text}.{outFomat.Text}";
+            string outputmusic_path = Path.Combine(Properties.Settings.Default.MusicOutputPath, output_name);
+            try
+            {
+                if (!File.Exists(outputmusic_path))
+                {
+                    AddLogs($"不存在文件{outputmusic_path}。");
+                }
+                else
+                {
+                    MusicPlayer.Source = new Uri(outputmusic_path, UriKind.Relative);
+                    if (PlayOutput.Content.ToString() == "播放输出音频")
+                    {
+                        PlayOutput.Content = "暂停";
+                        MusicPlayer.Play();
+                    }
+                    else
+                    {
+                        PlayOutput.Content = "播放输出音频";
+                        MusicPlayer.Pause();
+                        timer1.Stop();
+                    }
+                }
+            }
+            catch (Exception ex) { AddLogs(ex.Message); }
         }
     }
 }
