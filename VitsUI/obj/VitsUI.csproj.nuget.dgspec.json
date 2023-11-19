@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "H:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj": {}
+    "G:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj": {}
   },
   "projects": {
-    "H:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj": {
+    "G:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj",
+        "projectUniqueName": "G:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj",
         "projectName": "VitsUI",
-        "projectPath": "H:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj",
-        "packagesPath": "C:\\Users\\yaoz\\.nuget\\packages\\",
-        "outputPath": "H:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\obj\\",
+        "projectPath": "G:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\VitsUI.csproj",
+        "packagesPath": "C:\\Users\\muchen\\.nuget\\packages\\",
+        "outputPath": "G:\\code_and_project\\programe\\csharp\\own_project\\VitsUI\\VitsUI\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\software\\vs\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\yaoz\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\muchen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,6 +43,16 @@
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
+            "YamlDotNet": {
+              "target": "Package",
+              "version": "[13.7.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -50,6 +64,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.25, 6.0.25]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -58,7 +90,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

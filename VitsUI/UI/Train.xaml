@@ -58,6 +58,29 @@
                     <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="10" Margin="10">
                         <StackPanel>
                             <DockPanel>
+                                <TextBlock Text="主程序文件配置设置" FontSize="16" Style="{StaticResource Title}" DockPanel.Dock="Top"/>
+                                <UniformGrid Columns="2" DockPanel.Dock="Top" Margin="5">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="批大小(batch_size):" FontSize="14" Style="{StaticResource Text}"/>
+                                        <TextBox x:Name="batch_size" Height="20" Width="120"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="保存的模型数量(keep_ckpts):" FontSize="14" Style="{StaticResource Text}"/>
+                                        <TextBox x:Name="keep_ckpts" Height="20" Width="120"/>
+                                    </StackPanel>
+                                    <TextBlock Text="扩散模型文件配置设置" FontSize="16" Style="{StaticResource Title}"/>
+                                    <Separator Width="100" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="扩散模型训练批大小(batch_size):" FontSize="14" Style="{StaticResource Text}"/>
+                                        <TextBox x:Name="Diff_batch_size" Height="20" Width="120"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="扩散模型日志打印间隔(interval_log):" FontSize="14" Style="{StaticResource Text}"/>
+                                        <TextBox x:Name="interval_log" Height="20" Width="120"/>
+                                    </StackPanel>
+                                </UniformGrid>
+
+                                <Button DockPanel.Dock="Top" FontSize="14" Width="200" Height="30" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="SaveConfig_Click">保存配置</Button>
                                 <TextBlock VerticalAlignment="Center" Text="训练主模型：" Style="{StaticResource Text}" FontSize="20"/>
                                 <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="Train_Click">开始训练</Button>
                             </DockPanel>

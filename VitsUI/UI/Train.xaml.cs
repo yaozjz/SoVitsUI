@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -15,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VitsUI.Mods;
+using YamlDotNet.RepresentationModel;
 
 namespace VitsUI.UI
 {
@@ -25,13 +27,55 @@ namespace VitsUI.UI
     {
         string envs;
 
+        private void AddLogs(string msg)
+        {
+            OutPutLogs.AppendText(msg + '\r');
+        }
+
+        void Init_config()
+        {
+            var defual_config = System.IO.Path.Combine(Properties.Settings.Default.Config_path, "config.json");
+            var def_yaml = System.IO.Path.Combine(Properties.Settings.Default.Config_path, "diffusion.yaml");
+            if (!File.Exists(defual_config))
+            {
+                AddLogs("找不到config.json文件");
+                return;
+
+            }
+            if (!File.Exists(def_yaml))
+            {
+                AddLogs("找不到diffusion.yaml文件");
+                return;
+            }
+            try
+            {
+                var config = Mods.JsonEdit.LoadJsonData(defual_config);
+                batch_size.Text = config["train"]["batch_size"].ToString();
+                keep_ckpts.Text = config["train"]["keep_ckpts"].ToString();
+
+                var data = Mods.JsonEdit.LoadYaml(def_yaml);
+                Diff_batch_size.Text = data.Children["train"]["batch_size"].ToString();
+                interval_log.Text = data.Children["train"]["interval_log"].ToString();
+
+            }
+            catch (Exception ex)
+            {
+                AddLogs(ex.Message);
+            }
+        }
+
         public Train()
         {
             InitializeComponent();
             //envs = ".\\test\\python3.11\\python.exe";
             envs = Properties.Settings.Default.Python_env_path;
+            Init_config();
         }
-
+        /// <summary>
+        /// 数据预处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SampleData_Click(object sender, RoutedEventArgs e)
         {
             string[] args = new string[] { $"{envs} resample.py",
@@ -45,6 +89,7 @@ namespace VitsUI.UI
             //};
             var cmdDoc = new Mods.PythonRunning() { TB_view = OutPutLogs };
             cmdDoc.SendCommand(args);
+            Init_config();
         }
         /// <summary>
         /// Logs文本变化
@@ -109,6 +154,38 @@ namespace VitsUI.UI
         private void DiffTrain_Click(object sender, RoutedEventArgs e)
         {
             RunOneWay($"train_diff.py -c {System.IO.Path.Combine(Properties.Settings.Default.Config_path, Properties.Settings.Default.DiffConfig)}");
+        }
+        /// <summary>
+        /// 保存配置文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var defual_config = System.IO.Path.Combine(Properties.Settings.Default.Config_path, "config.json");
+            var def_yaml = System.IO.Path.Combine(Properties.Settings.Default.Config_path, "diffusion.yaml");
+            try
+            {
+                var config = Mods.JsonEdit.LoadJsonData(defual_config);
+                config["train"]["batch_size"] = int.Parse(batch_size.Text);
+                config["train"]["keep_ckpts"] = int.Parse(keep_ckpts.Text);
+                Mods.JsonEdit.WirteJson(defual_config, config);
+                //yaml修改
+                var data = Mods.JsonEdit.LoadYaml(def_yaml);
+                var arg_batch_size = data.Children["train"]["batch_size"];
+                var arg_interval_log = data.Children["train"]["interval_log"];
+                if (arg_batch_size is YamlScalarNode bs)
+                    // 修改标量节点的值
+                    bs.Value = Diff_batch_size.Text;
+                if(arg_interval_log is YamlScalarNode il)
+                    il.Value = interval_log.Text;
+                Mods.JsonEdit.WriteYaml(def_yaml, data);
+                AddLogs("保存成功");
+            }
+            catch (Exception ex)
+            {
+                AddLogs(ex.Message);
+            }
         }
     }
 }

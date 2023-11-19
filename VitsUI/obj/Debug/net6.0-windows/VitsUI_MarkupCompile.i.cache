@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\
+G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\
 VitsUI
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\App.xaml
+G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\App.xaml
 5341353879
 1-1669144244
-13-1018131799
-1951867791448
+14845073521
+196-2140520471
 MainWindow.xaml;Mods\MusicPlayer.xaml;UI\SettingUI.xaml;UI\Train.xaml;UI\VitsGoUI.xaml;
 
-True
+False
 

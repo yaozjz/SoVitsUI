@@ -57,6 +57,31 @@ namespace VitsUI.UI
             }
         }
 
+        void ReadSpeeker()
+        {
+            //配置文件读取
+            try
+            {
+                string de_config = Path.Combine(Properties.Settings.Default.Config_path, Config_name.SelectedItem.ToString());
+                if (!File.Exists(de_config))
+                {
+                    AddLogs("找不到配置文件");
+                    return;
+                }
+                string json = File.ReadAllText(de_config);
+                JObject objs = JObject.Parse(json);
+                var speeker_value = objs["spk"] as JObject;
+                foreach (var speeker in speeker_value)
+                {
+                    Now_Speeker.Text = speeker.Key;
+                }
+            }
+            catch (Exception ex)
+            {
+                AddLogs($"配置文件读取失败.{ex.Message}");
+            }
+        }
+
         public VitsGoUI()
         {
             InitializeComponent();
@@ -94,21 +119,7 @@ namespace VitsUI.UI
             IsEnableAutoKey.IsChecked = Properties.Settings.Default.isEnableAutoKey;
             IsEnableNSF.IsChecked = Properties.Settings.Default.isEnableNSF;
 
-            //配置文件读取
-            try
-            {
-                string json = File.ReadAllText(Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text));
-                JObject objs = JObject.Parse(json);
-                var speeker_value = objs["spk"] as JObject;
-                foreach (var speeker in speeker_value)
-                {
-                    Now_Speeker.Text = speeker.Key;
-                }
-            }
-            catch (Exception ex)
-            {
-                AddLogs($"配置文件读取失败.{ex.Message}");
-            }
+            ReadSpeeker();
         }
         /// <summary>
         /// 保存配置
@@ -301,6 +312,15 @@ namespace VitsUI.UI
                 }
             }
             catch (Exception ex) { AddLogs(ex.Message); }
+        }
+        /// <summary>
+        /// 更换配置文件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeConfigFile(object sender, SelectionChangedEventArgs e)
+        {
+            ReadSpeeker();
         }
     }
 }
