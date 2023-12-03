@@ -28,23 +28,10 @@ namespace VitsUI.Mods
             process = new Process();
             try
             {
-                //process.StartInfo.RedirectStandardOutput = true;
-                //process.StartInfo.UseShellExecute = false;
-                //process.StartInfo.CreateNoWindow = true;
-                //process.StartInfo.RedirectStandardInput = true;
-                //process.EnableRaisingEvents = true;
                 process.StartInfo.FileName = msg.Path;
                 process.StartInfo.Arguments = msg.Args;
                 Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"{msg.Path} {msg.Args}\r"); });
                 process.Start();
-                //process.BeginOutputReadLine(); //开始异步读取输出
-                //process.OutputDataReceived += new DataReceivedEventHandler(ProcessOutputHandler); //设置回调函数
-                //while (!process.StandardOutput.EndOfStream)
-                //{
-                //    string line = process.StandardOutput.ReadLine();
-                //    process.StandardInput.AutoFlush = true;
-                //    Application.Current.Dispatcher.Invoke(delegate { TB_view.AppendText($"{line}\r"); });
-                //}
 
                 process.WaitForExit();  //等待程序执行完退出进程
                 process.Close();
@@ -98,7 +85,7 @@ namespace VitsUI.Mods
 
         public void Close()
         {
-            process.WaitForExit();  //等待程序执行完退出进程
+            //process.WaitForExit();  //等待程序执行完退出进程
             process.Close();
         }
 

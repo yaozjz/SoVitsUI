@@ -7,9 +7,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Mods\MusicPlayer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="UI\SettingUI.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -22,9 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Mods\MusicPlayer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UI\SettingUI.xaml">

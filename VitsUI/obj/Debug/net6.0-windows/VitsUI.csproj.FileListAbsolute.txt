@@ -36,7 +36,6 @@ H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-w
 H:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\VitsUI.csproj.CopyComplete
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\VitsUI.csproj.AssemblyReference.cache
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\MainWindow.g.cs
-G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\Mods\MusicPlayer.g.cs
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\SettingUI.g.cs
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\Train.g.cs
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\VitsGoUI.g.cs
@@ -56,7 +55,6 @@ G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-w
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\App.baml
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\MainWindow.baml
-G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\Mods\MusicPlayer.baml
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\SettingUI.baml
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\Train.baml
 G:\code_and_project\programe\csharp\own_project\VitsUI\VitsUI\obj\Debug\net6.0-windows\UI\VitsGoUI.baml

@@ -69,6 +69,7 @@ namespace VitsUI.UI
             InitializeComponent();
             //envs = ".\\test\\python3.11\\python.exe";
             envs = Properties.Settings.Default.Python_env_path;
+            Mods.ToolsFunc.CheckFile(OutPutLogs);
             Init_config();
         }
         /// <summary>

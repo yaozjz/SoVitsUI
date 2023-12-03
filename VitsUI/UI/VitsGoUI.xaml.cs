@@ -53,7 +53,7 @@ namespace VitsUI.UI
             }
             else
             {
-                AddLogs("路径下没有找到合适文件.");
+                AddLogs($"{filePath}下没有找到合适文件.");
             }
         }
 
@@ -95,7 +95,7 @@ namespace VitsUI.UI
             Cheked_Foder(Diff_Config_name, config_path, "*.yaml");
             Cheked_Foder(Diff_model_name, Properties.Settings.Default.DiffPath, "*.pt");
             Cheked_Foder(Feature_mod_name, model_path, "*.pkl");
-
+            Mods.ToolsFunc.CheckFile(OutPutLogs);
             init_config();
         }
 
@@ -160,7 +160,7 @@ namespace VitsUI.UI
             string envs = $"{Properties.Settings.Default.Python_env_path} ";
             string inference_case;
             string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
-            inference_case = $"inference_main.py -m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n {Path.GetFileNameWithoutExtension(Input_music_path.Text)} -t {KeyNum.Value} -s {Now_Speeker.Text}" +
+            inference_case = $"inference_main.py -m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n \"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}\" -t {KeyNum.Value} -s {Now_Speeker.Text}" +
                 $" -f0p {F0_Index.Text} -sd {slice_db.Text}";
             if (IsEnableDiff.IsChecked == true)
                 //启用浅扩散模型
@@ -321,6 +321,55 @@ namespace VitsUI.UI
         private void ChangeConfigFile(object sender, SelectionChangedEventArgs e)
         {
             ReadSpeeker();
+        }
+        /// <summary>
+        /// 音频文件拖拽
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void fileListView_DragEnter(object sender, DragEventArgs e)
+        {
+            // 检查拖拽的数据是否包含文件
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void fileListView_Drop(object sender, DragEventArgs e)
+        {
+            // 获取拖拽的文件路径
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            string file_path = files[0];
+            //检查是否是wav格式文件
+            string extension = Path.GetExtension(file_path).ToLowerInvariant();
+            if (extension != ".wav")
+            {
+                AddLogs("你所添加的文件不是wav格式文件！");
+                return;
+            }
+            string file_name = Path.GetFileName(file_path);
+            string copy_to = Path.Combine("raw", file_name);
+            if (File.Exists(copy_to))
+            {
+                File.Delete(copy_to);
+            }
+            try
+            {
+                File.Copy(file_path, copy_to);
+                Input_music_path.Text = file_name;
+            }
+            catch (Exception ex) { AddLogs(ex.Message); return; }
+        }
+
+        private void ComboBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            //允许拖拽
+            e.Handled = true;
         }
     }
 }

@@ -80,7 +80,7 @@
                                     </StackPanel>
                                 </UniformGrid>
 
-                                <Button DockPanel.Dock="Top" FontSize="14" Width="200" Height="30" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="SaveConfig_Click">保存配置</Button>
+                                <Button DockPanel.Dock="Top" FontSize="14" Width="400" Height="35" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="SaveConfig_Click">保存配置</Button>
                                 <TextBlock VerticalAlignment="Center" Text="训练主模型：" Style="{StaticResource Text}" FontSize="20"/>
                                 <Button Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" Click="Train_Click">开始训练</Button>
                             </DockPanel>

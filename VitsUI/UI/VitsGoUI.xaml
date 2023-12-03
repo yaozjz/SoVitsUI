@@ -20,7 +20,7 @@
             <Button DockPanel.Dock="Right" Width="100" Height="40" Margin="10" FontSize="20" Style="{StaticResource dgButton}" Template="{StaticResource buttonTemplate}" 
                     Click="RunVits_Click" Cursor="Hand">开始推理</Button>
             <TextBlock DockPanel.Dock="Right" Text="保存成功！" Margin="20 10 20 10" FontSize="14" Visibility="Collapsed" x:Name="SaveDone_msg" Width="Auto"/>
-            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="60" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange" TextWrapping="Wrap" IsReadOnly="True"/>
+            <TextBox Margin="5" FontFamily="YouYuan" FontSize="13" Height="80" x:Name="OutPutLogs" VerticalScrollBarVisibility="Visible" TextChanged="LogsChange" TextWrapping="Wrap" IsReadOnly="True"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <ScrollViewer.Content>
@@ -146,7 +146,8 @@
                                     <TextBlock DockPanel.Dock="Left" Text="输入源：" Style="{StaticResource Text}"/>
                                     <Button DockPanel.Dock="Right" Click="OnpenInput_Path" Width="130" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">打开输入文件夹</Button>
                                     <Button DockPanel.Dock="Right" Click="View_music_Path" Margin="10 0 10 0" Width="100" Style="{StaticResource queButton}" Template="{StaticResource queButtonCtrl}">检测文件</Button>
-                                    <ComboBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center" IsEditable="True"/>
+                                    <ComboBox HorizontalAlignment="Stretch" x:Name="Input_music_path" VerticalContentAlignment="Center" IsEditable="True" 
+                                              AllowDrop="True" DragEnter="fileListView_DragEnter" Drop="fileListView_Drop" PreviewDragOver="ComboBox_PreviewDragOver"/>
                                 </DockPanel>
                             </Border>
                         </StackPanel>
