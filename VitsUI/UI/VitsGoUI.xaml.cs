@@ -159,14 +159,17 @@ namespace VitsUI.UI
             ShowMsg("开始推理！");
             string envs = $"{Properties.Settings.Default.Python_env_path} ";
             string inference_case;
-            string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);
-            inference_case = $"inference_main.py -m {Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)} -c {config_file} -n \"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}\" -t {KeyNum.Value} -s {Now_Speeker.Text}" +
+            string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);  //配置文件路径
+            inference_case = $"inference_main.py -m \"{Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)}\" -c \"{config_file}\" -n \"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}\" -t {KeyNum.Value} -s {Now_Speeker.Text}" +
                 $" -f0p {F0_Index.Text} -sd {slice_db.Text}";
             if (IsEnableDiff.IsChecked == true)
+            {
                 //启用浅扩散模型
-                inference_case += $" -shd -dm {Path.Combine(Properties.Settings.Default.DiffPath, Diff_model_name.Text)} -ks {DiffStep.Value}";
-            if (IsEnableNSF.IsChecked == true)
-                inference_case += " -eh";
+                inference_case += $" -dc \"{Path.Combine(Properties.Settings.Default.Config_path, Diff_Config_name.Text.Trim())}\"";  //配置文件路径
+                inference_case += $" -shd -dm \"{Path.Combine(Properties.Settings.Default.DiffPath, Diff_model_name.Text)}\" -ks {DiffStep.Value}";
+                if (IsEnableNSF.IsChecked == true)
+                    inference_case += " -eh";
+            }
             if (IsEnableFeature.IsChecked == true)
                 //启用特征检索模型
                 inference_case += $" --feature_retrieval -cm {Path.Combine(Properties.Settings.Default.Model_path, Feature_mod_name.Text)} -cr {FeatureArg.Text}";
