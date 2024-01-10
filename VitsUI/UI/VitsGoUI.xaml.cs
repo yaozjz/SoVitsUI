@@ -71,10 +71,14 @@ namespace VitsUI.UI
                 string json = File.ReadAllText(de_config);
                 JObject objs = JObject.Parse(json);
                 var speeker_value = objs["spk"] as JObject;
+                List<string> spks = new List<string>();
                 foreach (var speeker in speeker_value)
                 {
-                    Now_Speeker.Text = speeker.Key;
+                    spks.Add(speeker.Key);
                 }
+                Now_Speeker.ItemsSource = spks;
+                if (spks.Count > 0)
+                    Now_Speeker.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -160,7 +164,7 @@ namespace VitsUI.UI
             string envs = $"{Properties.Settings.Default.Python_env_path} ";
             string inference_case;
             string config_file = Path.Combine(Properties.Settings.Default.Config_path, Config_name.Text);  //配置文件路径
-            inference_case = $"inference_main.py -m \"{Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)}\" -c \"{config_file}\" -n \"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}\" -t {KeyNum.Value} -s {Now_Speeker.Text}" +
+            inference_case = $"inference_main.py -m \"{Path.Combine(Properties.Settings.Default.Model_path, Model_name.Text)}\" -c \"{config_file}\" -n \"{Path.GetFileNameWithoutExtension(Input_music_path.Text)}\" -t {KeyNum.Value} -s \"{Now_Speeker.Text}\"" +
                 $" -f0p {F0_Index.Text} -sd {slice_db.Text}";
             if (IsEnableDiff.IsChecked == true)
             {

@@ -117,7 +117,7 @@
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                                 <TextBlock Text="说话人：" Style="{StaticResource Text}"/>
-                                <TextBox x:Name="Now_Speeker" Text="None" IsReadOnly="True" Width="200" VerticalContentAlignment="Center"/>
+                                <ComboBox IsEditable="True" x:Name="Now_Speeker" Text="None" IsReadOnly="True" Width="200" VerticalContentAlignment="Center"/>
                                 <TextBlock Text="输出格式：" Style="{StaticResource Text}"/>
                                 <ComboBox x:Name="outFomat" VerticalContentAlignment="Center" Width="70">
                                     <ComboBoxItem IsSelected="True">flac</ComboBoxItem>
